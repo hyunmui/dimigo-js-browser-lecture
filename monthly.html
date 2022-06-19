@@ -14,6 +14,18 @@
         />
         <link rel="stylesheet" href="css/reset.css" />
         <link rel="stylesheet" href="css/main.css" />
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+            integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.9.1/axios.min.js"
+            integrity="sha512-Xk3wWei2TGrsh9kDSBKUMIjw/86sLUvhtnv9f7fOuIwhhiUTKz8szkWkzHthrM5Bb3Bu9idSzkxOrkzhcneuiw=="
+            crossorigin="anonymous"
+        ></script>
+        <script src="/js/menu.js"></script>
     </head>
 
     <body>
@@ -23,16 +35,12 @@
         <div class="container">
             <aside class="left-nav">
                 <nav>
-                    <ul class="menu">
-                        <li><a href="monthly.html">2022-04 (2)</a></li>
-                        <li><a href="monthly.html">2022-05 (2)</a></li>
-                        <li><a href="monthly.html">2022-06 (1)</a></li>
-                    </ul>
+                    <ul class="menu"></ul>
                 </nav>
             </aside>
             <div class="content">
                 <ul class="post-list">
-                    <li>
+                    <!-- <li>
                         <a href="posts/1.html">
                             <h2>
                                 비상계엄하의 군사재판은 군인·군무원의 범죄나 군사에 관한 간첩죄의 경우와
@@ -57,7 +65,7 @@
                                 본질적인 내용을 침해할 수 없다.
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                     <!-- <li>
                         <a href="posts/1.html">
                             <h2>
@@ -138,12 +146,40 @@
         <!-- AJAX -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
+                const url = new URL(location.href);
+                const yearAndMonth = url.searchParams.get("yearAndMonth");
+
                 fetch("/posts/list.json")
                     .then((response) => response.json())
                     .then((data) => {
-                        console.log(data);
-
                         // TODO: @list에 출력되도록 변경해보기
+                        let monthlyPostList = _.chain(data)
+                            .filter((p) => p.createdAt.startsWith(yearAndMonth))
+                            .sortBy((p) => p.createdAt) // 키를 기준으로 정렬
+                            .reverse() // 정렬된 것을 역순으로
+                            .value(); // 최종 배열형태로 값 가져옴;
+
+                        console.log(monthlyPostList);
+
+                        let postListEl = document.querySelector(".post-list");
+                        for (const p of monthlyPostList) {
+                            postListEl.innerHTML += `
+                                <li>
+                                    <a href="${p.url}">
+                                        <h2>${p.title}</h2>
+                                    </a>
+                                    <div class="post-info">
+                                        <div class="post-date">${p.createdAt}</div>
+                                        <div class="post-author">
+                                            <a href="mailto:hyunmui@outlook.kr">${p.author}</a>
+                                        </div>
+                                    </div>
+                                    <div class="post-summary">
+                                        <a href="${p.url}">${p.summary}</a>
+                                    </div>
+                                </li>
+                            `;
+                        }
                     });
             });
         </script>

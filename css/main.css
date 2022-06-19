@@ -8,7 +8,7 @@ select {
 }
 
 .header {
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
     padding: 20px 10px;
     border-bottom: 1px solid #a9a7a7;
@@ -50,14 +50,14 @@ a {
 }
 
 .container {
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
     padding: 30px;
     display: flex;
 }
 
 .content {
-    width: 900px;
+    width: 700px;
 }
 
 .post-list {
