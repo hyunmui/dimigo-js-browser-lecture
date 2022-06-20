@@ -89,7 +89,7 @@ aside.left-nav {
 }
 
 aside.left-nav ul.menu > li {
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .content {
@@ -98,9 +98,6 @@ aside.left-nav ul.menu > li {
 
 .content h1 {
     margin-bottom: 26px;
-}
-
-.post-detail {
 }
 
 .post-detail h3 {

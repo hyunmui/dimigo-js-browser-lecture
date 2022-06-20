@@ -33,7 +33,7 @@
                     <ul class="menu">
                         <li v-for="(menuItem, index) in menuList" :key="index">
                             <a :href="'/monthly.html?yearAndMonth=' + menuItem.key"
-                                >{{menuItem.key}} ({{menuItem.postCount}})</a
+                                >{{menuDate(menuItem.key)}} ({{menuItem.postCount}})</a
                             >
                         </li>
                     </ul>
@@ -66,6 +66,12 @@
 
                                 this.menuList = menuList;
                             });
+                    },
+                    methods: {
+                        menuDate(keyDate) {
+                            const splits = keyDate.split("-");
+                            return splits[0] + "년 " + splits[1] + "월";
+                        },
                     },
                 };
 
